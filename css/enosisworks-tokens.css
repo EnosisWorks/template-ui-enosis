@@ -1,0 +1,159 @@
+/* =====================================================================
+   ENOSISWORKS — DESIGN TOKENS  (brand system 2.1)
+   ---------------------------------------------------------------------
+   One source for colour, type, radius, spacing and motion. The site
+   (assets/enosisworks.css), the brandbook (brandbook-src/) and the LaTeX
+   package (tex/enosisworks-brand.sty) read the same values. Change a value
+   here and in section [3]/[4] of the .sty — nowhere else.
+
+   2.0 vs 1.0
+   - DM Sans replaces Inter, everywhere. Display = opsz 36–40, Light 300.
+   - Ember (#FF6A1A) joins the palette as the single contrast colour.
+   - One radius scale: 2 / 4 / 6 / 8 px. Nothing rounder than 8.
+   - The module system (0.22u corner, 0.13u joint) is geometry, not UI:
+     its tokens are prefixed --ew-mod-*.
+
+   2.1 vs 2.0
+   - Module compositions are filled with ONE gradient spanning the whole
+     composition (--ew-g-*). Blocks are never coloured one by one.
+   - Ember enters the modules only through --ew-g-signal.
+   - No numbering: --ew-t-index becomes --ew-t-eyebrow (plain text, no number).
+   - Buttons are always uppercase (--ew-btn-*).
+   - Letter-spacing is never reduced: 0 everywhere, + only for uppercase.
+   - Modules are an ACCENT, not a pattern: 3–7 blocks in full colour,
+     max ~15% of a field, whole, at the bottom or side on the content margin —
+     or one large motif in a ghost gradient (echo / haze), which may bleed. One motif per field. Module size u
+     is taken from content: button height, heading line height, grid column.
+   ===================================================================== */
+
+:root {
+  /* ------------------------------------------------------ colour · core */
+  --ew-violet:       #8126DE;  /* primary — mark, gradient, fields, active */
+  --ew-violet-dk:    #4E0F95;  /* right end of the gradient, deep fields */
+  --ew-violet-soft:  #C9AAF7;  /* accents on ink and on the gradient */
+  --ew-ember:        #FF6A1A;  /* the one contrast colour — a signal, never a section */
+  --ew-ink:          #14141A;  /* text, dark fields */
+  --ew-muted:        #6E6E7A;
+  --ew-faint:        #9A9AA6;
+  --ew-line:         #E8E8EE;
+  --ew-paper:        #F6F6F8;  /* card and quiet-section ground */
+  --ew-tint:         #F5F0FD;
+  --ew-white:        #FFFFFF;
+
+  /* -------------------------------------------------- colour · violet */
+  --ew-violet-50:  #F5F0FD;  --ew-violet-100: #EADDFC;  --ew-violet-200: #C9AAF7;
+  --ew-violet-300: #AE7EF0;  --ew-violet-400: #9650E8;  --ew-violet-500: #8126DE;
+  --ew-violet-600: #6A1CC0;  --ew-violet-700: #5A14A8;  --ew-violet-800: #4E0F95;
+  --ew-violet-900: #2A0A55;  --ew-violet-950: #17072E;
+
+  /* --------------------------------------------------- colour · ember
+     Ember takes INK text, never white (white on 500 = 2.9 : 1). For ember
+     text on white use 700. */
+  --ew-ember-50:  #FFF1E8;  --ew-ember-100: #FFDEC9;  --ew-ember-200: #FFBE95;
+  --ew-ember-300: #FF9A5C;  --ew-ember-400: #FF7F35;  --ew-ember-500: #FF6A1A;
+  --ew-ember-600: #E5570B;  --ew-ember-700: #B94507;  --ew-ember-800: #8A3408;
+  --ew-ember-900: #5A2206;
+
+  /* -------------------------------------------------- colour · neutral */
+  --ew-n-0: #FFFFFF;  --ew-n-50: #F6F6F8;  --ew-n-100: #EEEEF2;  --ew-n-200: #E8E8EE;
+  --ew-n-300: #C9C9D2; --ew-n-400: #9A9AA6; --ew-n-500: #6E6E7A;  --ew-n-600: #4A4A55;
+  --ew-n-700: #2E2E38; --ew-n-800: #1D1D26; --ew-n-900: #14141A;
+
+  --ew-error: #B3261E;
+  --ew-error-bg: #FDECEA;
+
+  /* ------------------------------------------------------------ fields
+     The six approved grounds. */
+  --ew-f-violet: linear-gradient(135deg, #8126DE 0%, #4E0F95 100%);
+  --ew-f-deep:   linear-gradient(150deg, #4E0F95 0%, #2A0A55 55%, #17072E 100%);
+  --ew-f-ink:    radial-gradient(120% 90% at 85% 0%, rgba(129, 38, 222, .55), rgba(20, 20, 26, 0) 60%), #14141A;
+  --ew-f-paper:  #F6F6F8;
+  --ew-f-white:  #FFFFFF;
+  /* Ember is a tile or a bar, never a section. */
+
+  /* --------------------------------------------------------- gradients
+     Module gradients. One per composition, spanning its full width
+     (SVG: gradientUnits="userSpaceOnUse" over the composition bbox).
+     Set the angle per use: linear-gradient(var(--ew-g-angle), ...).  */
+  --ew-g-angle:  90deg;
+  --ew-g-violet: linear-gradient(var(--ew-g-angle), #8126DE 0%, #4E0F95 100%);   /* white, paper, buttons */
+  --ew-g-signal: linear-gradient(var(--ew-g-angle), #4E0F95 0%, #8126DE 50%, #DD2E93 80%, #FF6A1A 100%); /* the moment of delivery — max one per screen */
+  --ew-g-depth:  linear-gradient(var(--ew-g-angle), #9650E8 0%, #2A0A55 100%);   /* on Deep */
+  --ew-g-lilac:  linear-gradient(var(--ew-g-angle), #C9AAF7 0%, #8126DE 100%);   /* on ink, dark photos */
+  --ew-g-veil:   linear-gradient(var(--ew-g-angle), rgb(255 255 255 / .30) 0%, rgb(255 255 255 / .04) 100%); /* behind content on Violet / Deep */
+  --ew-g-mist:   linear-gradient(var(--ew-g-angle), #EADDFC 0%, #F5F0FD 100%);   /* behind content on white / paper */
+  /* ghosts — a large motif in the background, barely visible */
+  --ew-g-echo:   linear-gradient(var(--ew-g-angle), rgb(255 255 255 / .13) 0%, rgb(255 255 255 / .03) 100%);  /* on Violet, Deep, Ink */
+  --ew-g-haze:   linear-gradient(var(--ew-g-angle), rgb(129 38 222 / .09) 0%, rgb(129 38 222 / .02) 100%);    /* on white, paper ("Szept") */
+  --ew-g-ink:    var(--ew-g-echo);     /* 2.1 alias */
+  --ew-g-brand:  var(--ew-g-violet);   /* 2.0 alias */
+
+  /* ---------------------------------------------------------------- type */
+  --ew-font: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ew-opsz-display: 40;   /* h1, h2, figures */
+  --ew-opsz-title:   24;   /* h3, card titles */
+  --ew-opsz-text:    14;   /* everything else */
+
+  --ew-w-light:   300;     /* display, h1, h2, lead */
+  --ew-w-regular: 400;     /* h3, body */
+  --ew-w-medium:  500;     /* card titles, buttons, labels — the heaviest weight in use */
+
+  /* one ladder — min @ 360 px, max @ 1440 px */
+  --ew-t-label:   clamp(11px, .14vw + 10.5px, 12px);    /* uppercase metadata only */
+  --ew-t-eyebrow: clamp(12.5px, .14vw + 12px, 13.5px);  /* eyebrow above a heading: plain text, muted, never numbered */
+  --ew-t-index:   var(--ew-t-eyebrow);                 /* 2.0 alias */
+  --ew-t-small:   clamp(14px, .14vw + 13.5px, 15px);
+  --ew-t-body:    clamp(16px, .14vw + 15.5px, 17px);
+  --ew-t-lead:    clamp(18px, .28vw + 17px, 21px);
+  --ew-t-h4:      clamp(18px, .19vw + 17.3px, 20px);
+  --ew-t-h3:      clamp(22px, .56vw + 20px, 28px);
+  --ew-t-h2:      clamp(34px, 1.67vw + 28px, 52px);
+  --ew-t-h1:      clamp(42px, 3.15vw + 30.7px, 76px);
+  --ew-t-display: clamp(52px, 4.8vw + 34.7px, 104px);
+
+  --ew-lh-display: .96;
+  --ew-lh-heading: 1.04;
+  --ew-lh-title:   1.2;
+  --ew-lh-lead:    1.45;
+  --ew-lh-body:    1.6;
+
+  --ew-ls-display: 0;
+  --ew-ls-h1:      0;
+  --ew-ls-h2:      0;
+  --ew-ls-h3:      0;
+  --ew-ls-body:    0;       /* tracking is never reduced — only widened for uppercase */
+  --ew-ls-label:   0.08em;
+
+  /* ------------------------------------------------------------- radius
+     One scale, small on purpose. Print equivalents: .7 / 1.2 / 1.8 / 2.6 mm. */
+  --ew-r-xs: 2px;   /* dots, markers */
+  --ew-r-sm: 4px;   /* buttons, chips, inputs */
+  --ew-r-md: 6px;   /* cards, panels, swatches */
+  --ew-r-lg: 8px;   /* large media panels — the maximum */
+
+  /* ------------------------------------------------------------ modules
+     Geometry of the mark (brand system § 05). u = row height. */
+  --ew-mod-corner: .22;   /* × u */
+  --ew-mod-joint:  .13;   /* × u */
+
+  /* ------------------------------------------------------------ spacing */
+  --ew-s-1: 4px;  --ew-s-2: 8px;  --ew-s-3: 12px; --ew-s-4: 16px; --ew-s-5: 24px;
+  --ew-s-6: 32px; --ew-s-7: 48px; --ew-s-8: 64px; --ew-s-9: 96px; --ew-s-10: 128px;
+
+  --ew-hair: 1px;
+
+  /* ------------------------------------------------------------- buttons
+     Always uppercase. Label = verb. */
+  --ew-btn-transform: uppercase;
+  --ew-btn-size:      13px;
+  --ew-btn-tracking:  .07em;
+  --ew-btn-weight:    500;
+  --ew-btn-radius:    var(--ew-r-sm);
+  --ew-btn-height:    48px;
+
+  /* ------------------------------------------------------------- motion */
+  --ew-ease:   cubic-bezier(.22, .61, .36, 1);
+  --ew-d-fast: 160ms;
+  --ew-d:      320ms;
+  --ew-d-slow: 720ms;
+}

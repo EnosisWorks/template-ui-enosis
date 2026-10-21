@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="pl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EnosisWorks — panel administracyjny</title>
+<link rel="stylesheet" href="css/enosisworks-tokens.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- =====================================================================
+     IKONY — jeden sprite, użycie: <svg class="i"><use href="#i-home"/></svg>
+     ===================================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.4 6-5.4s6 2.1 6 5.4"/><path d="M16 5.2a3.2 3.2 0 0 1 0 6M18 20c0-2.6-1-4.2-2.5-5.1"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-5.8 7-5.8s7 2.2 7 5.8"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 4.2 2.9 7.7 7 9 4.1-1.3 7-4.8 7-9V6l-7-3z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 14a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V20a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 18.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 4 12.6H4a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 5.7 7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H11a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.6 1H23a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M13.7 20a2 2 0 0 1-3.4 0"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8L3 5z"/></symbol>
+    <symbol id="i-sort" viewBox="0 0 24 24"><path d="m7 9 3-3 3 3M7 15l3 3 3-3"/></symbol>
+    <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L19 7"/></symbol>
+    <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></symbol>
+    <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5"/><path d="M4 21h16"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 21V9M7 13l5-5 5 5"/><path d="M4 3h16"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M15 17v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v2"/><path d="M20 12H9m8-4 4 4-4 4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.6.3-.9.8-.9 1.4v.4"/><circle cx="12" cy="17" r=".6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.5 20h19L12 4z"/><path d="M12 10v4"/><circle cx="12" cy="17.2" r=".6"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 6 .5l2-2a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-6-.5l-2 2A4 4 0 0 0 11.7 17l1-1"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4h9l-1 3h6v8h-7l1-3H5"/></symbol>
+    <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 13h5l2 3h4l2-3h5"/><path d="M4.5 5h15l1.5 8v6H3v-6l1.5-8z"/></symbol>
+  </defs>
+</svg>
+
+<div class="app" id="app">
+
+  <!-- =================================================================
+       MENU BOCZNE — sekcje, pozycje z ikoną, liczniki, podmenu
+       ================================================================= -->
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <img src="assets/brand/enosisworks-logo-reversed.svg" alt="EnosisWorks">
+      <img class="sidebar__mark" src="assets/brand/enosisworks-mark.svg" alt="">
+    </div>
+
+    <nav class="sidebar__nav">
+      <div class="nav__section">
+        <div class="nav__label">Przegląd</div>
+        <button class="nav__item" aria-current="page" data-goto="dashboard"><svg class="i"><use href="#i-home"/></svg><span>Pulpit</span></button>
+        <button class="nav__item" data-goto="reports"><svg class="i"><use href="#i-chart"/></svg><span>Raporty</span></button>
+        <button class="nav__item" data-goto="inbox"><svg class="i"><use href="#i-inbox"/></svg><span>Skrzynka zadań</span><span class="nav__count">12</span></button>
+      </div>
+
+      <div class="nav__section">
+        <div class="nav__label">Operacje</div>
+        <button class="nav__item" data-goto="table"><svg class="i"><use href="#i-table"/></svg><span>Zlecenia</span><span class="nav__count">248</span></button>
+        <button class="nav__item nav__item--parent" aria-expanded="false" data-parent><svg class="i"><use href="#i-box"/></svg><span>Katalog</span><svg class="i i--sm chev"><use href="#i-chev-r"/></svg></button>
+        <div class="nav__sub">
+          <button class="nav__item" data-goto="products"><span>Produkty</span></button>
+          <button class="nav__item" data-goto="variants"><span>Warianty</span></button>
+          <button class="nav__item" data-goto="pricelists"><span>Cenniki</span></button>
+        </div>
+        <button class="nav__item" data-goto="documents"><svg class="i"><use href="#i-file"/></svg><span>Dokumenty</span></button>
+      </div>
+
+      <div class="nav__section">
+        <div class="nav__label">Administracja</div>
+        <button class="nav__item" data-goto="users"><svg class="i"><use href="#i-users"/></svg><span>Użytkownicy</span></button>
+        <button class="nav__item" data-goto="roles"><svg class="i"><use href="#i-shield"/></svg><span>Role i uprawnienia</span></button>
+        <button class="nav__item" data-goto="settings"><svg class="i"><use href="#i-cog"/></svg><span>Ustawienia</span></button>
+        <button class="nav__item" data-goto="components"><svg class="i"><use href="#i-panel"/></svg><span>Komponenty</span></button>
+      </div>
+    </nav>
+
+    <div class="sidebar__foot">
+      <span class="dot"></span><span>Usługi działają · 1.4.2</span>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <!-- ===============================================================
+         PASEK GÓRNY — okruszki, wyszukiwarka, narzędzia, menu użytkownika
+         =============================================================== -->
+    <header class="topbar">
+      <button class="icon-btn only-mobile" id="navToggle" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>
+      <button class="icon-btn tip" data-tip="Zwiń menu" id="collapseToggle" aria-label="Zwiń menu"><svg class="i"><use href="#i-panel"/></svg></button>
+
+      <!-- przełącznik obszaru roboczego / klienta / spółki -->
+      <div class="menu-wrap">
+        <button class="switcher" data-menu="menuWs">
+          <span class="avatar avatar--sm">AC</span>
+          <span class="switcher__text"><span class="switcher__name">Acme Sp. z o.o.</span><span class="switcher__sub">Zakład Warszawa</span></span>
+          <svg class="i i--sm"><use href="#i-chev-d"/></svg>
+        </button>
+        <div class="menu menu--left" id="menuWs">
+          <div class="menu__label">Obszary robocze</div>
+          <button class="menu__item"><span class="avatar avatar--sm">AC</span> Acme Sp. z o.o. <svg class="i i--sm" style="margin-left:auto"><use href="#i-check"/></svg></button>
+          <button class="menu__item"><span class="avatar avatar--sm">NX</span> Nexo Industries</button>
+          <button class="menu__item"><span class="avatar avatar--sm">PL</span> Polmet Group</button>
+          <div class="menu__sep"></div>
+          <button class="menu__item"><svg class="i"><use href="#i-plus"/></svg> Dodaj obszar roboczy</button>
+        </div>
+      </div>
+
+      <nav class="topbar__crumbs" aria-label="Ścieżka">
+        <a href="#" id="crumbSection">Przegląd</a><span class="sep">/</span><strong id="crumbNow">Pulpit</strong>
+      </nav>
+
+      <div class="topbar__search">
+        <svg class="i"><use href="#i-search"/></svg>
+        <input class="input" type="search" placeholder="Szukaj zleceń, klientów, dokumentów" id="globalSearch">
+        <kbd>⌘K</kbd>
+      </div>
+
+      <div class="topbar__tools">
+        <span class="env-pill">Test</span>
+        <button class="icon-btn tip" data-tip="Nowy" data-modal="modalNew"><svg class="i"><use href="#i-plus"/></svg></button>
+        <div class="menu-wrap">
+          <button class="icon-btn tip" data-tip="Powiadomienia" data-menu="menuBell"><svg class="i"><use href="#i-bell"/></svg><span class="icon-btn__dot">3</span></button>
+          <div class="menu" id="menuBell" style="min-width:320px">
+            <div class="menu__head row row--between"><strong>Powiadomienia</strong><button class="btn btn--quiet btn--sm">Oznacz jako przeczytane</button></div>
+            <button class="menu__item"><svg class="i"><use href="#i-alert"/></svg><span>Zlecenie ZL-2481 przekroczyło termin<br><span class="xs muted">12 minut temu</span></span></button>
+            <button class="menu__item"><svg class="i"><use href="#i-check"/></svg><span>Import cennika zakończony<br><span class="xs muted">1 godzinę temu</span></span></button>
+            <button class="menu__item"><svg class="i"><use href="#i-user"/></svg><span>Nowy użytkownik czeka na zatwierdzenie<br><span class="xs muted">wczoraj</span></span></button>
+            <div class="menu__sep"></div>
+            <button class="menu__item">Zobacz wszystkie</button>
+          </div>
+        </div>
+        <button class="icon-btn tip" data-tip="Tryb ciemny" id="themeToggle"><svg class="i"><use href="#i-moon"/></svg></button>
+        <button class="icon-btn tip" data-tip="Pomoc" data-drawer="drawerHelp"><svg class="i"><use href="#i-help"/></svg></button>
+
+        <div class="menu-wrap">
+          <button class="user-btn" data-menu="menuUser">
+            <span class="avatar">MK</span>
+            <span class="small" style="text-align:left">Maria Kowalska<br><span class="xs muted">Administrator</span></span>
+            <svg class="i i--sm"><use href="#i-chev-d"/></svg>
+          </button>
+          <div class="menu" id="menuUser">
+            <div class="menu__head row">
+              <span class="avatar avatar--lg">MK</span>
+              <span><strong>Maria Kowalska</strong><br><span class="xs muted">maria.kowalska@acme.pl</span></span>
+            </div>
+            <button class="menu__item"><svg class="i"><use href="#i-user"/></svg> Mój profil</button>
+            <button class="menu__item" data-goto="settings"><svg class="i"><use href="#i-cog"/></svg> Ustawienia konta</button>
+            <button class="menu__item"><svg class="i"><use href="#i-shield"/></svg> Bezpieczeństwo i sesje</button>
+            <button class="menu__item"><svg class="i"><use href="#i-flag"/></svg> Język: polski</button>
+            <div class="menu__sep"></div>
+            <button class="menu__item"><svg class="i"><use href="#i-help"/></svg> Dokumentacja i skróty</button>
+            <button class="menu__item"><svg class="i"><use href="#i-link"/></svg> Zgłoś problem</button>
+            <div class="menu__sep"></div>
+            <a class="menu__item menu__item--danger" href="login.html"><svg class="i"><use href="#i-logout"/></svg> Wyloguj</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===============================================================
+         WIDOK: PULPIT
+         =============================================================== -->
+    <main class="content" data-view="dashboard">
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Przegląd</span>
+          <h1 class="h1">Pulpit</h1>
+          <p class="sub">Stan na dziś, 23 września. Dane odświeżane co 15 minut.</p>
+        </div>
+        <div class="page-head__actions">
+          <div class="segment" role="group">
+            <button aria-pressed="false">Dzień</button><button aria-pressed="true">Tydzień</button><button aria-pressed="false">Miesiąc</button>
+          </div>
+          <button class="btn btn--ghost"><svg class="i i--sm"><use href="#i-download"/></svg> Eksport</button>
+          <button class="btn btn--primary" data-modal="modalNew"><svg class="i i--sm"><use href="#i-plus"/></svg> Nowe zlecenie</button>
+        </div>
+      </div>
+
+      <div class="banner mb-4"><svg class="i"><use href="#i-alert"/></svg>
+        <div>Trzy zlecenia czekają na akceptację dłużej niż 48 godzin. <a href="#" style="text-decoration:underline">Pokaż listę</a></div>
+      </div>
+
+      <!-- KPI -->
+      <section class="grid grid--4 mb-4">
+        <div class="card kpi">
+          <div class="kpi__label">Zlecenia w toku <svg class="i i--sm tip" data-tip="Zlecenia w statusie innym niż zamknięte"><use href="#i-help"/></svg></div>
+          <div class="kpi__value">248</div>
+          <div class="kpi__delta kpi__delta--up"><svg class="i i--sm"><use href="#i-arrow-up"/></svg> 12% wobec zeszłego tygodnia</div>
+          <svg class="kpi__spark" viewBox="0 0 120 36" preserveAspectRatio="none"><polyline points="0,28 15,24 30,26 45,18 60,20 75,12 90,14 105,8 120,6" fill="none" stroke="var(--brand)" stroke-width="2"/></svg>
+        </div>
+        <div class="card kpi">
+          <div class="kpi__label">Średni czas realizacji</div>
+          <div class="kpi__value">3,4 dnia</div>
+          <div class="kpi__delta kpi__delta--down"><svg class="i i--sm"><use href="#i-arrow-down"/></svg> 0,6 dnia dłużej</div>
+          <svg class="kpi__spark" viewBox="0 0 120 36" preserveAspectRatio="none"><polyline points="0,10 15,14 30,12 45,18 60,16 75,22 90,20 105,26 120,28" fill="none" stroke="var(--accent)" stroke-width="2"/></svg>
+        </div>
+        <div class="card kpi">
+          <div class="kpi__label">Wykorzystanie zespołu</div>
+          <div class="kpi__value">86%</div>
+          <div class="mt-3"><div class="progress"><div class="progress__bar" style="width:86%"></div></div></div>
+          <div class="xs muted mt-2">Cel kwartalny: 80%</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi__label">Zgłoszenia otwarte</div>
+          <div class="kpi__value">17</div>
+          <div class="kpi__delta"><span class="badge badge--warn">5 po terminie</span></div>
+          <div class="xs muted mt-2">Najstarsze: 6 dni</div>
+        </div>
+      </section>
+
+      <!-- wykres + lista -->
+      <section class="grid grid--2-1 mb-4">
+        <div class="card">
+          <div class="card__head">
+            <span class="card__title">Zlecenia w czasie</span>
+            <span class="legend" style="margin-left:auto">
+              <span><i class="legend__key" style="background:var(--brand)"></i>Przyjęte</span>
+              <span><i class="legend__key" style="background:var(--brand-soft)"></i>Zamknięte</span>
+            </span>
+            <button class="icon-btn" data-menu="menuChart"><svg class="i"><use href="#i-dots"/></svg></button>
+          </div>
+          <div class="card__body">
+            <!-- prosty wykres słupkowy: podmień na bibliotekę wykresów przy portowaniu -->
+            <svg viewBox="0 0 640 220" width="100%" height="220" role="img" aria-label="Wykres zleceń">
+              <g stroke="var(--line)" stroke-width="1">
+                <line x1="40" y1="20" x2="640" y2="20"/><line x1="40" y1="70" x2="640" y2="70"/>
+                <line x1="40" y1="120" x2="640" y2="120"/><line x1="40" y1="170" x2="640" y2="170"/>
+              </g>
+              <g fill="var(--faint)" font-size="11" font-family="inherit">
+                <text x="0" y="24">120</text><text x="0" y="74">80</text><text x="0" y="124">40</text><text x="0" y="174">0</text>
+              </g>
+              <g>
+                <rect x="60"  y="96"  width="26" height="74"  rx="3" fill="var(--brand)"/><rect x="90"  y="128" width="26" height="42" rx="3" fill="var(--brand-soft)"/>
+                <rect x="145" y="80"  width="26" height="90"  rx="3" fill="var(--brand)"/><rect x="175" y="112" width="26" height="58" rx="3" fill="var(--brand-soft)"/>
+                <rect x="230" y="60"  width="26" height="110" rx="3" fill="var(--brand)"/><rect x="260" y="100" width="26" height="70" rx="3" fill="var(--brand-soft)"/>
+                <rect x="315" y="72"  width="26" height="98"  rx="3" fill="var(--brand)"/><rect x="345" y="92"  width="26" height="78" rx="3" fill="var(--brand-soft)"/>
+                <rect x="400" y="44"  width="26" height="126" rx="3" fill="var(--brand)"/><rect x="430" y="88"  width="26" height="82" rx="3" fill="var(--brand-soft)"/>
+                <rect x="485" y="56"  width="26" height="114" rx="3" fill="var(--brand)"/><rect x="515" y="78"  width="26" height="92" rx="3" fill="var(--brand-soft)"/>
+                <rect x="570" y="66"  width="26" height="104" rx="3" fill="var(--brand)"/><rect x="600" y="104" width="26" height="66" rx="3" fill="var(--brand-soft)"/>
+              </g>
+              <g fill="var(--muted)" font-size="11" font-family="inherit" text-anchor="middle">
+                <text x="88" y="192">pon</text><text x="173" y="192">wt</text><text x="258" y="192">śr</text>
+                <text x="343" y="192">czw</text><text x="428" y="192">pt</text><text x="513" y="192">sob</text><text x="598" y="192">nd</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head"><span class="card__title">Ostatnia aktywność</span></div>
+          <div class="card__body card__body--flush feed">
+            <div class="feed__item"><span class="feed__dot"></span><div><div>Anna Nowak zamknęła <strong>ZL-2476</strong></div><div class="xs muted">8 minut temu</div></div></div>
+            <div class="feed__item"><span class="feed__dot" style="background:var(--accent)"></span><div><div>Import cennika: <strong>3 błędy</strong> w 1 240 wierszach</div><div class="xs muted">42 minuty temu</div></div></div>
+            <div class="feed__item"><span class="feed__dot"></span><div><div>Piotr Zieliński dodał dokument do <strong>ZL-2470</strong></div><div class="xs muted">2 godziny temu</div></div></div>
+            <div class="feed__item"><span class="feed__dot"></span><div><div>Nowy użytkownik: <strong>k.wisniewski@acme.pl</strong></div><div class="xs muted">wczoraj, 16:20</div></div></div>
+          </div>
+          <div class="card__foot"><button class="btn btn--quiet btn--sm w-full">Pokaż pełny dziennik</button></div>
+        </div>
+      </section>
+
+      <!-- zadania i skróty -->
+      <section class="grid grid--2">
+        <div class="card">
+          <div class="card__head"><span class="card__title">Wymaga decyzji</span><span class="badge badge--warn" style="margin-left:auto">5</span></div>
+          <div class="card__body card__body--flush list">
+            <div class="list__item"><input class="check" type="checkbox"><div class="truncate"><div>Akceptacja wyceny ZL-2481</div><div class="xs muted">Termin: dziś, 17:00</div></div><span class="badge badge--err" style="margin-left:auto">Pilne</span></div>
+            <div class="list__item"><input class="check" type="checkbox"><div class="truncate"><div>Zatwierdzenie nowego wariantu produktu</div><div class="xs muted">Zgłosił: Tomasz Lis</div></div><span class="badge badge--warn" style="margin-left:auto">2 dni</span></div>
+            <div class="list__item"><input class="check" type="checkbox"><div class="truncate"><div>Przegląd uprawnień działu logistyki</div><div class="xs muted">Cykliczne, kwartalne</div></div><span class="badge" style="margin-left:auto">Planowe</span></div>
+          </div>
+        </div>
+        <div class="card card--accent">
+          <div class="card__body">
+            <span class="k" style="color:rgba(255,255,255,.7)">Skróty</span>
+            <h2 class="h2" style="max-width:20ch">Zacznij od tego, co dziś wymaga ruchu.</h2>
+            <div class="row row--wrap mt-4">
+              <button class="btn btn--rev" data-goto="table">Lista zleceń</button>
+              <button class="btn btn--ghost" data-drawer="drawerFilters">Zapisane filtry</button>
+            </div>
+            <div class="row row--wrap mt-3">
+              <button class="btn btn--quiet" style="color:rgba(255,255,255,.8);padding-left:0" data-goto="users">Użytkownicy</button>
+              <button class="btn btn--quiet" style="color:rgba(255,255,255,.8)">Import danych</button>
+            </div>
+          </div>
+          <img class="card__mod" src="assets/brand/forma-zbieg.svg" alt="">
+        </div>
+      </section>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: TABELA Z FILTROWANIEM
+         =============================================================== -->
+    <main class="content" data-view="table" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Operacje</span>
+          <h1 class="h1">Zlecenia</h1>
+          <p class="sub">248 pozycji, 12 przypisanych do Ciebie.</p>
+        </div>
+        <div class="page-head__actions">
+          <button class="btn btn--ghost" data-drawer="drawerFilters"><svg class="i i--sm"><use href="#i-filter"/></svg> Filtry zaawansowane</button>
+          <button class="btn btn--ghost"><svg class="i i--sm"><use href="#i-download"/></svg> Eksport CSV</button>
+          <button class="btn btn--primary" data-modal="modalNew"><svg class="i i--sm"><use href="#i-plus"/></svg> Nowe zlecenie</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <!-- pasek narzędzi: szukaj + filtry + kolumny -->
+        <div class="toolbar">
+          <div class="input-group" style="flex:1 1 260px;max-width:340px">
+            <svg class="i"><use href="#i-search"/></svg>
+            <input class="input" type="search" placeholder="Szukaj w tabeli" data-table-search="ordersTable">
+          </div>
+          <select class="select" style="width:auto" data-table-filter="ordersTable" data-col="3">
+            <option value="">Status: wszystkie</option>
+            <option>Nowe</option><option>W toku</option><option>Wstrzymane</option><option>Zamknięte</option>
+          </select>
+          <select class="select" style="width:auto" data-table-filter="ordersTable" data-col="4">
+            <option value="">Właściciel: wszyscy</option>
+            <option>Anna Nowak</option><option>Piotr Zieliński</option><option>Tomasz Lis</option>
+          </select>
+          <input class="input" type="date" style="width:auto">
+          <div class="spacer"></div>
+          <div class="menu-wrap">
+            <button class="btn btn--ghost btn--sm" data-menu="menuCols"><svg class="i i--sm"><use href="#i-panel"/></svg> Kolumny</button>
+            <div class="menu" id="menuCols">
+              <div class="menu__label">Widoczne kolumny</div>
+              <label class="menu__item"><input class="check" type="checkbox" checked> Numer</label>
+              <label class="menu__item"><input class="check" type="checkbox" checked> Klient</label>
+              <label class="menu__item"><input class="check" type="checkbox" checked> Status</label>
+              <label class="menu__item"><input class="check" type="checkbox" checked> Właściciel</label>
+              <label class="menu__item"><input class="check" type="checkbox"> Marża</label>
+            </div>
+          </div>
+          <button class="btn btn--ghost btn--sm"><svg class="i i--sm"><use href="#i-cog"/></svg> Zapisz widok</button>
+        </div>
+
+        <!-- aktywne filtry -->
+        <div class="chips">
+          <span class="chip chip--on">Status: W toku <button class="chip__x" aria-label="Usuń filtr"><svg class="i i--sm"><use href="#i-x"/></svg></button></span>
+          <span class="chip chip--on">Termin: ten tydzień <button class="chip__x" aria-label="Usuń filtr"><svg class="i i--sm"><use href="#i-x"/></svg></button></span>
+          <button class="chip chip--add">+ Dodaj filtr</button>
+          <button class="btn btn--quiet btn--sm" style="margin-left:auto">Wyczyść wszystkie</button>
+        </div>
+
+        <!-- pasek akcji masowych (pokazuje się po zaznaczeniu) -->
+        <div class="bulkbar" id="bulkbar" hidden>
+          <strong><span id="bulkCount">0</span> zaznaczonych</strong>
+          <button class="btn btn--sm btn--ghost">Zmień właściciela</button>
+          <button class="btn btn--sm btn--ghost">Zmień status</button>
+          <button class="btn btn--sm btn--ghost"><svg class="i i--sm"><use href="#i-download"/></svg> Eksport</button>
+          <div class="spacer"></div>
+          <button class="btn btn--sm btn--danger" data-modal="modalConfirm">Usuń</button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table" id="ordersTable">
+            <thead>
+              <tr>
+                <th class="col-check"><input class="check" type="checkbox" data-check-all></th>
+                <th class="sortable" data-sort>Numer <svg class="i i--sm"><use href="#i-sort"/></svg></th>
+                <th class="sortable" data-sort>Klient <svg class="i i--sm"><use href="#i-sort"/></svg></th>
+                <th>Status</th>
+                <th class="sortable" data-sort>Właściciel <svg class="i i--sm"><use href="#i-sort"/></svg></th>
+                <th class="sortable num" data-sort data-type="num">Wartość <svg class="i i--sm"><use href="#i-sort"/></svg></th>
+                <th class="sortable" data-sort>Termin <svg class="i i--sm"><use href="#i-sort"/></svg></th>
+                <th class="col-actions"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input class="check" type="checkbox" data-check-row></td>
+                <td><a href="#" data-goto="detail" class="mono">ZL-2481</a></td>
+                <td><div class="cell-main"><span class="avatar avatar--sm">AC</span><div><div>Acme Sp. z o.o.</div><div class="cell-main__sub">Zakład Warszawa</div></div></div></td>
+                <td><span class="badge badge--warn">Wstrzymane</span></td>
+                <td>Anna Nowak</td>
+                <td class="num">184 200,00</td>
+                <td>25.09.2026</td>
+                <td class="col-actions"><button class="icon-btn" data-menu="rowMenu1"><svg class="i"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input class="check" type="checkbox" data-check-row></td>
+                <td><a href="#" data-goto="detail" class="mono">ZL-2480</a></td>
+                <td><div class="cell-main"><span class="avatar avatar--sm">NX</span><div><div>Nexo Industries</div><div class="cell-main__sub">Centrala</div></div></div></td>
+                <td><span class="badge badge--info">W toku</span></td>
+                <td>Piotr Zieliński</td>
+                <td class="num">92 750,00</td>
+                <td>28.09.2026</td>
+                <td class="col-actions"><button class="icon-btn" data-menu="rowMenu1"><svg class="i"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input class="check" type="checkbox" data-check-row></td>
+                <td><a href="#" data-goto="detail" class="mono">ZL-2479</a></td>
+                <td><div class="cell-main"><span class="avatar avatar--sm">PL</span><div><div>Polmet Group</div><div class="cell-main__sub">Zakład Gdańsk</div></div></div></td>
+                <td><span class="badge badge--ok">Zamknięte</span></td>
+                <td>Tomasz Lis</td>
+                <td class="num">12 400,00</td>
+                <td>19.09.2026</td>
+                <td class="col-actions"><button class="icon-btn" data-menu="rowMenu1"><svg class="i"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input class="check" type="checkbox" data-check-row></td>
+                <td><a href="#" data-goto="detail" class="mono">ZL-2478</a></td>
+                <td><div class="cell-main"><span class="avatar avatar--sm">AC</span><div><div>Acme Sp. z o.o.</div><div class="cell-main__sub">Zakład Kraków</div></div></div></td>
+                <td><span class="badge badge--info">W toku</span></td>
+                <td>Anna Nowak</td>
+                <td class="num">45 900,00</td>
+                <td>30.09.2026</td>
+                <td class="col-actions"><button class="icon-btn" data-menu="rowMenu1"><svg class="i"><use href="#i-dots"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><input class="check" type="checkbox" data-check-row></td>
+                <td><a href="#" data-goto="detail" class="mono">ZL-2477</a></td>
+                <td><div class="cell-main"><span class="avatar avatar--sm">NX</span><div><div>Nexo Industries</div><div class="cell-main__sub">Oddział Poznań</div></div></div></td>
+                <td><span class="badge badge--plain">Nowe</span></td>
+                <td>Piotr Zieliński</td>
+                <td class="num">7 300,00</td>
+                <td>02.10.2026</td>
+                <td class="col-actions"><button class="icon-btn" data-menu="rowMenu1"><svg class="i"><use href="#i-dots"/></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- menu wiersza: jedno na tabelę, pozycjonowane przy klikniętym przycisku -->
+          <div class="menu" id="rowMenu1" style="position:absolute">
+            <button class="menu__item" data-goto="detail"><svg class="i"><use href="#i-file"/></svg> Otwórz</button>
+            <button class="menu__item"><svg class="i"><use href="#i-user"/></svg> Zmień właściciela</button>
+            <button class="menu__item"><svg class="i"><use href="#i-link"/></svg> Kopiuj link</button>
+            <div class="menu__sep"></div>
+            <button class="menu__item menu__item--danger" data-modal="modalConfirm"><svg class="i"><use href="#i-x"/></svg> Usuń</button>
+          </div>
+        </div>
+
+        <div class="pager">
+          <span class="small muted">Pokazuje 1–5 z 248</span>
+          <select class="select" style="width:auto;margin-left:12px"><option>25 / stronę</option><option>50 / stronę</option><option>100 / stronę</option></select>
+          <div class="spacer"></div>
+          <button class="pager__btn" disabled><svg class="i i--sm"><use href="#i-chev-l"/></svg></button>
+          <button class="pager__btn" aria-current="page">1</button>
+          <button class="pager__btn">2</button><button class="pager__btn">3</button>
+          <span class="muted">…</span><button class="pager__btn">10</button>
+          <button class="pager__btn"><svg class="i i--sm"><use href="#i-chev-r"/></svg></button>
+        </div>
+      </div>
+
+      <!-- stan pusty i ładowanie: przełącz w kodzie zamiast tabeli -->
+      <div class="card mt-4">
+        <div class="card__head"><span class="card__title">Warianty stanu tabeli</span></div>
+        <div class="card__body grid grid--2">
+          <div class="card">
+            <div class="empty">
+              <span class="empty__icon"><img src="assets/brand/forma-punkt.svg" alt="" style="width:26px"></span>
+              <h3 class="h3">Brak wyników</h3>
+              <p class="sub small">Żadne zlecenie nie pasuje do wybranych filtrów.</p>
+              <button class="btn btn--ghost btn--sm">Wyczyść filtry</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card__body stack">
+              <div class="skeleton" style="width:40%"></div>
+              <div class="skeleton"></div><div class="skeleton"></div>
+              <div class="skeleton" style="width:70%"></div><div class="skeleton" style="width:55%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: KARTA REKORDU (szczegóły + zakładki + oś czasu)
+         =============================================================== -->
+    <main class="content" data-view="detail" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <div class="row mb-3">
+            <button class="btn btn--quiet btn--sm" data-goto="table"><svg class="i i--sm"><use href="#i-chev-l"/></svg> Zlecenia</button>
+          </div>
+          <div class="row row--wrap">
+            <h1 class="h1 mono">ZL-2481</h1>
+            <span class="badge badge--warn">Wstrzymane</span>
+            <span class="tag">Priorytet: wysoki</span>
+          </div>
+          <p class="sub">Acme Sp. z o.o. · Zakład Warszawa · utworzone 12.09.2026 przez Annę Nowak</p>
+        </div>
+        <div class="page-head__actions">
+          <button class="btn btn--ghost"><svg class="i i--sm"><use href="#i-link"/></svg> Kopiuj link</button>
+          <button class="btn btn--ghost" data-drawer="drawerHelp">Historia zmian</button>
+          <button class="btn btn--primary"><svg class="i i--sm"><use href="#i-check"/></svg> Wznów realizację</button>
+          <div class="menu-wrap">
+            <button class="icon-btn" data-menu="menuRec"><svg class="i"><use href="#i-dots"/></svg></button>
+            <div class="menu" id="menuRec">
+              <button class="menu__item"><svg class="i"><use href="#i-download"/></svg> Pobierz PDF</button>
+              <button class="menu__item"><svg class="i"><use href="#i-user"/></svg> Przypisz do mnie</button>
+              <div class="menu__sep"></div>
+              <button class="menu__item menu__item--danger" data-modal="modalConfirm"><svg class="i"><use href="#i-x"/></svg> Anuluj zlecenie</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="steps mb-4">
+        <span class="step step--done"><span class="step__n"><svg class="i i--sm"><use href="#i-check"/></svg></span> Przyjęte</span>
+        <span class="step step--done"><span class="step__n"><svg class="i i--sm"><use href="#i-check"/></svg></span> Wycenione</span>
+        <span class="step step--now"><span class="step__n">3</span> Akceptacja klienta</span>
+        <span class="step"><span class="step__n">4</span> Realizacja</span>
+        <span class="step"><span class="step__n">5</span> Rozliczenie</span>
+      </div>
+
+      <div class="card mb-4">
+        <div class="tabs" role="tablist">
+          <button class="tab" role="tab" aria-selected="true" data-tab="t-over">Przegląd</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="t-items">Pozycje <span class="tag" style="margin-left:6px">8</span></button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="t-files">Pliki</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="t-log">Dziennik</button>
+        </div>
+
+        <div class="card__body" data-tabpanel="t-over">
+          <div class="grid grid--2-1">
+            <div class="stack">
+              <dl class="kv">
+                <dt>Klient</dt><dd>Acme Sp. z o.o. <span class="muted small">· NIP 5252445211</span></dd>
+                <dt>Lokalizacja</dt><dd>Zakład Warszawa, ul. Przemysłowa 14</dd>
+                <dt>Właściciel</dt><dd><span class="row"><span class="avatar avatar--sm">AN</span> Anna Nowak</span></dd>
+                <dt>Wartość</dt><dd>184 200,00 PLN <span class="muted small">· marża 18,4%</span></dd>
+                <dt>Termin</dt><dd>25.09.2026 <span class="badge badge--err" style="margin-left:6px">2 dni po terminie</span></dd>
+                <dt>Opis</dt><dd>Modernizacja linii pakującej wraz z integracją z systemem magazynowym.</dd>
+              </dl>
+              <div class="banner banner--warn"><svg class="i"><use href="#i-alert"/></svg>
+                <div>Zlecenie wstrzymane 21.09 przez Annę Nowak: „Czekamy na potwierdzenie zakresu po stronie klienta”.</div>
+              </div>
+            </div>
+            <div class="stack">
+              <div class="card">
+                <div class="card__head"><span class="card__title">Oś czasu</span></div>
+                <div class="card__body">
+                  <div class="timeline">
+                    <div class="timeline__item"><div class="small"><strong>Wstrzymane</strong></div><div class="xs muted">21.09.2026, 11:04 · Anna Nowak</div></div>
+                    <div class="timeline__item"><div class="small"><strong>Wycena wysłana</strong></div><div class="xs muted">18.09.2026, 09:12 · Piotr Zieliński</div></div>
+                    <div class="timeline__item"><div class="small"><strong>Zlecenie przyjęte</strong></div><div class="xs muted">12.09.2026, 14:30 · Anna Nowak</div></div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card__head"><span class="card__title">Powiązane</span></div>
+                <div class="card__body card__body--flush list">
+                  <div class="list__item"><svg class="i"><use href="#i-file"/></svg><span class="truncate">Oferta OF-1183</span><svg class="i i--sm" style="margin-left:auto"><use href="#i-chev-r"/></svg></div>
+                  <div class="list__item"><svg class="i"><use href="#i-file"/></svg><span class="truncate">Umowa ramowa 2024/17</span><svg class="i i--sm" style="margin-left:auto"><use href="#i-chev-r"/></svg></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card__body" data-tabpanel="t-items" hidden>
+          <table class="table">
+            <thead><tr><th>Pozycja</th><th class="num">Ilość</th><th class="num">Cena</th><th class="num">Wartość</th></tr></thead>
+            <tbody>
+              <tr><td>Analiza i projekt</td><td class="num">1</td><td class="num">24 000,00</td><td class="num">24 000,00</td></tr>
+              <tr><td>Integracja z systemem magazynowym</td><td class="num">1</td><td class="num">86 000,00</td><td class="num">86 000,00</td></tr>
+              <tr><td>Uruchomienie i testy</td><td class="num">1</td><td class="num">74 200,00</td><td class="num">74 200,00</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card__body" data-tabpanel="t-files" hidden>
+          <div class="dropzone"><svg class="i i--lg"><use href="#i-upload"/></svg><div>Przeciągnij pliki albo <a href="#" style="text-decoration:underline">wybierz z dysku</a></div><div class="xs muted">PDF, XLSX, PNG do 25 MB</div></div>
+        </div>
+        <div class="card__body" data-tabpanel="t-log" hidden>
+          <table class="table">
+            <thead><tr><th>Kiedy</th><th>Kto</th><th>Zdarzenie</th><th>Szczegóły</th></tr></thead>
+            <tbody>
+              <tr><td class="mono small">21.09 11:04</td><td>Anna Nowak</td><td><span class="badge badge--warn">status</span></td><td class="muted small">W toku → Wstrzymane</td></tr>
+              <tr><td class="mono small">18.09 09:12</td><td>Piotr Zieliński</td><td><span class="badge badge--info">dokument</span></td><td class="muted small">Dodano wycenę OF-1183</td></tr>
+              <tr><td class="mono small">12.09 14:30</td><td>Anna Nowak</td><td><span class="badge badge--ok">utworzenie</span></td><td class="muted small">Zlecenie utworzone</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: USTAWIENIA (formularz z sekcjami)
+         =============================================================== -->
+    <main class="content" data-view="settings" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Administracja</span>
+          <h1 class="h1">Ustawienia</h1>
+          <p class="sub">Konfiguracja obszaru roboczego Acme Sp. z o.o.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="tabs">
+          <button class="tab" aria-selected="true" data-tab="s-general">Ogólne</button>
+          <button class="tab" aria-selected="false" data-tab="s-notify">Powiadomienia</button>
+          <button class="tab" aria-selected="false" data-tab="s-api">Integracje</button>
+        </div>
+
+        <div data-tabpanel="s-general">
+          <div class="card__body">
+            <div class="form-section">
+              <div>
+                <div class="h3">Dane organizacji</div>
+                <p class="sub small">Nazwa widoczna w nagłówku i na dokumentach.</p>
+              </div>
+              <div class="stack">
+                <div class="field"><label class="field__label" for="f1">Nazwa</label><input class="input" id="f1" value="Acme Sp. z o.o."></div>
+                <div class="grid grid--2">
+                  <div class="field"><label class="field__label" for="f2">NIP</label><input class="input" id="f2" value="5252445211"></div>
+                  <div class="field"><label class="field__label" for="f3">Kraj</label>
+                    <select class="select" id="f3"><option>Polska</option><option>Niemcy</option><option>Czechy</option></select></div>
+                </div>
+                <div class="field"><label class="field__label" for="f4">Opis</label>
+                  <textarea class="textarea" id="f4" placeholder="Krótki opis widoczny dla użytkowników"></textarea>
+                  <span class="field__hint">Maksymalnie 280 znaków.</span></div>
+                <div class="field"><label class="field__label" for="f5">Domena e-mail</label>
+                  <input class="input input--err" id="f5" value="acme..pl">
+                  <span class="field__err">Niepoprawny format domeny.</span></div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div>
+                <div class="h3">Sposób pracy</div>
+                <p class="sub small">Dotyczy wszystkich użytkowników obszaru.</p>
+              </div>
+              <div class="stack">
+                <label class="choice choice--on"><input type="radio" name="mode" checked><span><strong>Akceptacja dwuetapowa</strong><br><span class="sub small">Każda zmiana statusu wymaga potwierdzenia przez drugą osobę.</span></span></label>
+                <label class="choice"><input type="radio" name="mode"><span><strong>Akceptacja pojedyncza</strong><br><span class="sub small">Właściciel zlecenia decyduje samodzielnie.</span></span></label>
+                <div class="row row--between"><div><strong class="small">Automatyczne przypomnienia</strong><div class="sub small">Wysyłaj przypomnienie 24 godziny przed terminem.</div></div>
+                  <label class="switch"><input type="checkbox" checked><span class="switch__track"></span></label></div>
+                <div class="row row--between"><div><strong class="small">Wymagaj komentarza przy wstrzymaniu</strong><div class="sub small">Bez komentarza nie można wstrzymać zlecenia.</div></div>
+                  <label class="switch"><input type="checkbox"><span class="switch__track"></span></label></div>
+              </div>
+            </div>
+          </div>
+          <div class="save-bar"><button class="btn btn--ghost">Anuluj</button><button class="btn btn--primary" data-toast="Ustawienia zapisane">Zapisz zmiany</button></div>
+        </div>
+
+        <div data-tabpanel="s-notify" hidden>
+          <div class="card__body">
+            <table class="table">
+              <thead><tr><th>Zdarzenie</th><th style="width:90px">E-mail</th><th style="width:90px">W aplikacji</th><th style="width:90px">Webhook</th></tr></thead>
+              <tbody>
+                <tr><td>Nowe zlecenie</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td></tr>
+                <tr><td>Zmiana statusu</td><td><input class="check" type="checkbox"></td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td></tr>
+                <tr><td>Przekroczony termin</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div data-tabpanel="s-api" hidden>
+          <div class="card__body stack">
+            <div class="banner"><svg class="i"><use href="#i-help"/></svg><div>Klucz API pokazujemy raz, zaraz po utworzeniu. Później można go tylko unieważnić.</div></div>
+            <table class="table">
+              <thead><tr><th>Nazwa</th><th>Klucz</th><th>Utworzony</th><th>Ostatnie użycie</th><th class="col-actions"></th></tr></thead>
+              <tbody>
+                <tr><td>Integracja ERP</td><td class="mono small">sk_live_••••••4821</td><td class="small">02.04.2026</td><td class="small">dziś, 09:12</td><td class="col-actions"><button class="icon-btn"><svg class="i"><use href="#i-dots"/></svg></button></td></tr>
+                <tr><td>Hurtownia danych</td><td class="mono small">sk_live_••••••9075</td><td class="small">17.01.2026</td><td class="small">7 dni temu</td><td class="col-actions"><button class="icon-btn"><svg class="i"><use href="#i-dots"/></svg></button></td></tr>
+              </tbody>
+            </table>
+            <div><button class="btn btn--ghost"><svg class="i i--sm"><use href="#i-plus"/></svg> Nowy klucz API</button></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: UŻYTKOWNICY I ROLE (macierz uprawnień)
+         =============================================================== -->
+    <main class="content" data-view="users" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Administracja</span>
+          <h1 class="h1">Użytkownicy</h1>
+          <p class="sub">34 aktywnych, 2 zaproszenia oczekujące.</p>
+        </div>
+        <div class="page-head__actions">
+          <button class="btn btn--ghost"><svg class="i i--sm"><use href="#i-upload"/></svg> Import z CSV</button>
+          <button class="btn btn--primary" data-drawer="drawerUser"><svg class="i i--sm"><use href="#i-plus"/></svg> Zaproś użytkownika</button>
+        </div>
+      </div>
+
+      <div class="grid grid--2-1">
+        <div class="card">
+          <div class="toolbar">
+            <div class="input-group" style="flex:1"><svg class="i"><use href="#i-search"/></svg>
+              <input class="input" type="search" placeholder="Szukaj osoby" data-table-search="usersTable"></div>
+            <select class="select" style="width:auto" data-table-filter="usersTable" data-col="2">
+              <option value="">Rola: wszystkie</option><option>Administrator</option><option>Operator</option><option>Podgląd</option>
+            </select>
+          </div>
+          <table class="table" id="usersTable">
+            <thead><tr><th>Osoba</th><th>Zespół</th><th>Rola</th><th>Status</th><th class="col-actions"></th></tr></thead>
+            <tbody>
+              <tr><td><div class="cell-main"><span class="avatar avatar--sm">MK</span><div><div>Maria Kowalska</div><div class="cell-main__sub">maria.kowalska@acme.pl</div></div></div></td><td>Zarząd</td><td>Administrator</td><td><span class="badge badge--ok">Aktywny</span></td><td class="col-actions"><button class="icon-btn"><svg class="i"><use href="#i-dots"/></svg></button></td></tr>
+              <tr><td><div class="cell-main"><span class="avatar avatar--sm">AN</span><div><div>Anna Nowak</div><div class="cell-main__sub">anna.nowak@acme.pl</div></div></div></td><td>Operacje</td><td>Operator</td><td><span class="badge badge--ok">Aktywny</span></td><td class="col-actions"><button class="icon-btn"><svg class="i"><use href="#i-dots"/></svg></button></td></tr>
+              <tr><td><div class="cell-main"><span class="avatar avatar--sm">PZ</span><div><div>Piotr Zieliński</div><div class="cell-main__sub">piotr.zielinski@acme.pl</div></div></div></td><td>Operacje</td><td>Operator</td><td><span class="badge badge--warn">Zaproszony</span></td><td class="col-actions"><button class="icon-btn"><svg class="i"><use href="#i-dots"/></svg></button></td></tr>
+              <tr><td><div class="cell-main"><span class="avatar avatar--sm">TL</span><div><div>Tomasz Lis</div><div class="cell-main__sub">tomasz.lis@acme.pl</div></div></div></td><td>Finanse</td><td>Podgląd</td><td><span class="badge">Zablokowany</span></td><td class="col-actions"><button class="icon-btn"><svg class="i"><use href="#i-dots"/></svg></button></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card__head"><span class="card__title">Macierz uprawnień</span></div>
+          <table class="table">
+            <thead><tr><th>Zakres</th><th style="width:60px">Adm.</th><th style="width:60px">Oper.</th><th style="width:60px">Podgl.</th></tr></thead>
+            <tbody>
+              <tr><td>Zlecenia: podgląd</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td></tr>
+              <tr><td>Zlecenia: edycja</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td></tr>
+              <tr><td>Zlecenia: usuwanie</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td><td><input class="check" type="checkbox"></td></tr>
+              <tr><td>Użytkownicy</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td><td><input class="check" type="checkbox"></td></tr>
+              <tr><td>Ustawienia i klucze API</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td><td><input class="check" type="checkbox"></td></tr>
+            </tbody>
+          </table>
+          <div class="card__foot row"><span class="small muted">Zmiany działają od następnego logowania.</span><button class="btn btn--sm btn--primary" style="margin-left:auto" data-toast="Uprawnienia zapisane">Zapisz</button></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: RAPORTY
+         =============================================================== -->
+    <main class="content" data-view="reports" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Przegląd</span>
+          <h1 class="h1">Raporty</h1>
+          <p class="sub">Zapisane zestawienia i raporty wysyłane cyklicznie.</p>
+        </div>
+        <div class="page-head__actions">
+          <button class="btn btn--ghost"><svg class="i i--sm"><use href="#i-download"/></svg> Eksport</button>
+          <button class="btn btn--primary" data-toast="Raport dodany"><svg class="i i--sm"><use href="#i-plus"/></svg> Nowy raport</button>
+        </div>
+      </div>
+
+      <section class="grid grid--3 mb-4">
+        <div class="card kpi"><div class="kpi__label">Przychód w tym miesiącu</div><div class="kpi__value">412 800 zł</div><div class="kpi__delta kpi__delta--up"><svg class="i i--sm"><use href="#i-arrow-up"/></svg> 8% wobec sierpnia</div></div>
+        <div class="card kpi"><div class="kpi__label">Marża średnia</div><div class="kpi__value">27,4%</div><div class="kpi__delta kpi__delta--down"><svg class="i i--sm"><use href="#i-arrow-down"/></svg> 1,2 p.p.</div></div>
+        <div class="card kpi"><div class="kpi__label">Terminowość</div><div class="kpi__value">93%</div><div class="mt-3"><div class="progress"><div class="progress__bar" style="width:93%"></div></div></div></div>
+      </section>
+
+      <div class="card">
+        <div class="card__head"><span class="card__title">Zapisane raporty</span></div>
+        <table class="table">
+          <thead><tr><th>Nazwa</th><th>Zakres</th><th>Wysyłka</th><th>Ostatnio</th><th class="col-actions"></th></tr></thead>
+          <tbody>
+            <tr><td>Sprzedaż według klientów</td><td>Miesiąc</td><td><span class="badge badge--ok">Co poniedziałek</span></td><td>21.10, 07:00</td><td class="col-actions"><button class="btn btn--quiet btn--sm"><svg class="i i--sm"><use href="#i-download"/></svg> PDF</button></td></tr>
+            <tr><td>Zlecenia po terminie</td><td>Tydzień</td><td><span class="badge badge--ok">Codziennie</span></td><td>21.10, 06:00</td><td class="col-actions"><button class="btn btn--quiet btn--sm"><svg class="i i--sm"><use href="#i-download"/></svg> PDF</button></td></tr>
+            <tr><td>Wykorzystanie zespołu</td><td>Kwartał</td><td><span class="badge">Ręcznie</span></td><td>30.09, 15:12</td><td class="col-actions"><button class="btn btn--quiet btn--sm"><svg class="i i--sm"><use href="#i-download"/></svg> PDF</button></td></tr>
+            <tr><td>Marża na produktach</td><td>Miesiąc</td><td><span class="badge">Ręcznie</span></td><td>02.10, 10:40</td><td class="col-actions"><button class="btn btn--quiet btn--sm"><svg class="i i--sm"><use href="#i-download"/></svg> PDF</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: SKRZYNKA ZADAŃ
+         =============================================================== -->
+    <main class="content" data-view="inbox" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Przegląd</span>
+          <h1 class="h1">Skrzynka zadań</h1>
+          <p class="sub">12 zadań przypisanych do Ciebie, 3 po terminie.</p>
+        </div>
+        <div class="page-head__actions">
+          <div class="segment" role="group">
+            <button aria-pressed="true">Moje</button><button aria-pressed="false">Zespołu</button><button aria-pressed="false">Wszystkie</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid--2-1">
+        <div class="card">
+          <div class="card__head"><span class="card__title">Do zrobienia</span></div>
+          <div class="list">
+            <div class="list__item"><input class="check" type="checkbox"><div class="truncate"><div>Akceptacja wyceny ZL-2481</div><div class="xs muted">Termin: dziś, 17:00</div></div><span class="badge badge--err" style="margin-left:auto">Pilne</span></div>
+            <div class="list__item"><input class="check" type="checkbox"><div class="truncate"><div>Zatwierdzenie nowego wariantu produktu</div><div class="xs muted">Zgłosił: Tomasz Lis</div></div><span class="badge badge--warn" style="margin-left:auto">2 dni</span></div>
+            <div class="list__item"><input class="check" type="checkbox"><div class="truncate"><div>Weryfikacja importu cennika Q4</div><div class="xs muted">3 błędy w 1 240 wierszach</div></div><span class="badge badge--warn" style="margin-left:auto">1 dzień</span></div>
+            <div class="list__item"><input class="check" type="checkbox"><div class="truncate"><div>Zatwierdzenie użytkownika k.wisniewski@acme.pl</div><div class="xs muted">Czeka od wczoraj</div></div><span class="badge" style="margin-left:auto">Normalne</span></div>
+            <div class="list__item"><input class="check" type="checkbox"><div class="truncate"><div>Przegląd uprawnień działu logistyki</div><div class="xs muted">Cykliczne, kwartalne</div></div><span class="badge" style="margin-left:auto">Planowe</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__head"><span class="card__title">Ostatnio zamknięte</span></div>
+          <div class="card__body">
+            <div class="feed">
+              <div class="feed__item"><span class="feed__dot"></span><div><div>Akceptacja ZL-2476</div><div class="xs muted">8 minut temu</div></div></div>
+              <div class="feed__item"><span class="feed__dot"></span><div><div>Korekta faktury FV/10/112</div><div class="xs muted">wczoraj, 14:05</div></div></div>
+              <div class="feed__item"><span class="feed__dot"></span><div><div>Nowy klient: Polmet Group</div><div class="xs muted">wczoraj, 09:30</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: KATALOG — PRODUKTY
+         =============================================================== -->
+    <main class="content" data-view="products" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Katalog</span>
+          <h1 class="h1">Produkty</h1>
+          <p class="sub">86 produktów w 7 kategoriach.</p>
+        </div>
+        <div class="page-head__actions">
+          <button class="btn btn--ghost"><svg class="i i--sm"><use href="#i-upload"/></svg> Import</button>
+          <button class="btn btn--primary" data-toast="Produkt dodany"><svg class="i i--sm"><use href="#i-plus"/></svg> Nowy produkt</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="toolbar">
+          <div class="input-group" style="flex:1 1 260px;max-width:340px"><svg class="i"><use href="#i-search"/></svg>
+            <input class="input" type="search" placeholder="Szukaj produktu" data-table-search="productsTable"></div>
+          <select class="select" style="width:auto" data-table-filter="productsTable" data-col="2">
+            <option value="">Kategoria: wszystkie</option><option>Konstrukcje</option><option>Okucia</option><option>Usługi</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="productsTable">
+            <thead><tr><th class="sortable" data-sort>SKU <svg class="i i--sm"><use href="#i-sort"/></svg></th><th class="sortable" data-sort>Nazwa <svg class="i i--sm"><use href="#i-sort"/></svg></th><th>Kategoria</th><th class="sortable" data-sort data-type="num">Warianty <svg class="i i--sm"><use href="#i-sort"/></svg></th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">PR-1001</td><td>Rama stalowa RS-40</td><td>Konstrukcje</td><td>6</td><td><span class="badge badge--ok">Aktywny</span></td></tr>
+              <tr><td class="mono">PR-1002</td><td>Rama stalowa RS-60</td><td>Konstrukcje</td><td>4</td><td><span class="badge badge--ok">Aktywny</span></td></tr>
+              <tr><td class="mono">PR-1015</td><td>Zawias przemysłowy Z-12</td><td>Okucia</td><td>3</td><td><span class="badge badge--ok">Aktywny</span></td></tr>
+              <tr><td class="mono">PR-1022</td><td>Montaż na miejscu</td><td>Usługi</td><td>1</td><td><span class="badge badge--warn">Szkic</span></td></tr>
+              <tr><td class="mono">PR-0987</td><td>Rama aluminiowa RA-30</td><td>Konstrukcje</td><td>2</td><td><span class="badge">Wycofany</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: KATALOG — WARIANTY
+         =============================================================== -->
+    <main class="content" data-view="variants" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Katalog</span>
+          <h1 class="h1">Warianty</h1>
+          <p class="sub">214 wariantów, 1 czeka na zatwierdzenie.</p>
+        </div>
+        <div class="page-head__actions">
+          <button class="btn btn--primary" data-toast="Wariant dodany"><svg class="i i--sm"><use href="#i-plus"/></svg> Nowy wariant</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="toolbar">
+          <div class="input-group" style="flex:1 1 260px;max-width:340px"><svg class="i"><use href="#i-search"/></svg>
+            <input class="input" type="search" placeholder="Szukaj wariantu" data-table-search="variantsTable"></div>
+          <select class="select" style="width:auto" data-table-filter="variantsTable" data-col="1">
+            <option value="">Produkt: wszystkie</option><option>RS-40</option><option>RS-60</option><option>Z-12</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="variantsTable">
+            <thead><tr><th>SKU wariantu</th><th>Produkt</th><th>Wymiary</th><th>Wykończenie</th><th class="sortable" data-sort data-type="num">Stan <svg class="i i--sm"><use href="#i-sort"/></svg></th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">RS-40-1200-OC</td><td>RS-40</td><td>1200 × 400</td><td><span class="tag">Ocynk</span></td><td>142</td><td><span class="badge badge--ok">Aktywny</span></td></tr>
+              <tr><td class="mono">RS-40-1200-RAL</td><td>RS-40</td><td>1200 × 400</td><td><span class="tag">RAL 7016</span></td><td>38</td><td><span class="badge badge--ok">Aktywny</span></td></tr>
+              <tr><td class="mono">RS-60-1500-OC</td><td>RS-60</td><td>1500 × 600</td><td><span class="tag">Ocynk</span></td><td>9</td><td><span class="badge badge--warn">Niski stan</span></td></tr>
+              <tr><td class="mono">RS-60-1800-RAL</td><td>RS-60</td><td>1800 × 600</td><td><span class="tag">RAL 9005</span></td><td>0</td><td><span class="badge badge--info">Do zatwierdzenia</span></td></tr>
+              <tr><td class="mono">Z-12-INOX</td><td>Z-12</td><td>120 mm</td><td><span class="tag">Inox</span></td><td>860</td><td><span class="badge badge--ok">Aktywny</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: KATALOG — CENNIKI
+         =============================================================== -->
+    <main class="content" data-view="pricelists" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Katalog</span>
+          <h1 class="h1">Cenniki</h1>
+          <p class="sub">Cenniki bazowe i indywidualne dla klientów.</p>
+        </div>
+        <div class="page-head__actions">
+          <button class="btn btn--ghost"><svg class="i i--sm"><use href="#i-upload"/></svg> Import cennika</button>
+          <button class="btn btn--primary" data-toast="Cennik dodany"><svg class="i i--sm"><use href="#i-plus"/></svg> Nowy cennik</button>
+        </div>
+      </div>
+
+      <div class="banner banner--warn mb-4"><svg class="i"><use href="#i-alert"/></svg>
+        <div>Import cennika Q4 zakończony z 3 błędami w 1 240 wierszach.</div>
+      </div>
+
+      <div class="card">
+        <table class="table">
+          <thead><tr><th>Nazwa</th><th>Waluta</th><th>Pozycje</th><th>Obowiązuje</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Cennik bazowy 2026</td><td>PLN</td><td>1 240</td><td>01.01 – 31.12.2026</td><td><span class="badge badge--ok">Aktywny</span></td></tr>
+            <tr><td>Cennik Q4 (import)</td><td>PLN</td><td>1 237</td><td>od 01.10.2026</td><td><span class="badge badge--warn">3 błędy</span></td></tr>
+            <tr><td>Eksport UE</td><td>EUR</td><td>412</td><td>01.01 – 31.12.2026</td><td><span class="badge badge--ok">Aktywny</span></td></tr>
+            <tr><td>Nexo Industries — umowa ramowa</td><td>PLN</td><td>86</td><td>do 30.06.2027</td><td><span class="badge badge--info">Indywidualny</span></td></tr>
+            <tr><td>Cennik bazowy 2025</td><td>PLN</td><td>1 198</td><td>01.01 – 31.12.2025</td><td><span class="badge">Archiwalny</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: DOKUMENTY
+         =============================================================== -->
+    <main class="content" data-view="documents" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Operacje</span>
+          <h1 class="h1">Dokumenty</h1>
+          <p class="sub">Oferty, umowy i protokoły powiązane ze zleceniami.</p>
+        </div>
+        <div class="page-head__actions">
+          <button class="btn btn--primary" data-toast="Dokument dodany"><svg class="i i--sm"><use href="#i-upload"/></svg> Dodaj dokument</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="toolbar">
+          <div class="input-group" style="flex:1 1 260px;max-width:340px"><svg class="i"><use href="#i-search"/></svg>
+            <input class="input" type="search" placeholder="Szukaj dokumentu" data-table-search="docsTable"></div>
+          <select class="select" style="width:auto" data-table-filter="docsTable" data-col="1">
+            <option value="">Typ: wszystkie</option><option>Oferta</option><option>Umowa</option><option>Protokół</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="docsTable">
+            <thead><tr><th>Dokument</th><th>Typ</th><th>Zlecenie</th><th>Dodał</th><th>Data</th></tr></thead>
+            <tbody>
+              <tr><td><div class="cell-main"><svg class="i"><use href="#i-file"/></svg><div>Oferta OF-1183</div></div></td><td>Oferta</td><td><a href="#" data-goto="detail" class="mono">ZL-2481</a></td><td>Anna Nowak</td><td>20.10.2026</td></tr>
+              <tr><td><div class="cell-main"><svg class="i"><use href="#i-file"/></svg><div>Umowa ramowa Nexo</div></div></td><td>Umowa</td><td><a href="#" data-goto="detail" class="mono">ZL-2479</a></td><td>Maria Kowalska</td><td>18.10.2026</td></tr>
+              <tr><td><div class="cell-main"><svg class="i"><use href="#i-file"/></svg><div>Protokół odbioru PO-311</div></div></td><td>Protokół</td><td><a href="#" data-goto="detail" class="mono">ZL-2470</a></td><td>Piotr Zieliński</td><td>15.10.2026</td></tr>
+              <tr><td><div class="cell-main"><svg class="i"><use href="#i-file"/></svg><div>Oferta OF-1179</div></div></td><td>Oferta</td><td><a href="#" data-goto="detail" class="mono">ZL-2468</a></td><td>Tomasz Lis</td><td>12.10.2026</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: ROLE I UPRAWNIENIA
+         =============================================================== -->
+    <main class="content" data-view="roles" hidden>
+      <div class="page-head">
+        <div class="page-head__text">
+          <span class="k">Administracja</span>
+          <h1 class="h1">Role i uprawnienia</h1>
+          <p class="sub">Trzy role, zmiany działają od następnego logowania.</p>
+        </div>
+        <div class="page-head__actions">
+          <button class="btn btn--primary" data-toast="Rola dodana"><svg class="i i--sm"><use href="#i-plus"/></svg> Nowa rola</button>
+        </div>
+      </div>
+
+      <section class="grid grid--3 mb-4">
+        <div class="card"><div class="card__body"><div class="row row--between"><strong>Administrator</strong><span class="badge badge--brand">3 osoby</span></div><p class="small muted mt-2">Pełny dostęp, w tym użytkownicy, ustawienia i klucze API.</p></div></div>
+        <div class="card"><div class="card__body"><div class="row row--between"><strong>Operator</strong><span class="badge badge--brand">24 osoby</span></div><p class="small muted mt-2">Tworzy i edytuje zlecenia, katalog i dokumenty.</p></div></div>
+        <div class="card"><div class="card__body"><div class="row row--between"><strong>Podgląd</strong><span class="badge badge--brand">7 osób</span></div><p class="small muted mt-2">Tylko odczyt, bez eksportu danych.</p></div></div>
+      </section>
+
+      <div class="card">
+        <div class="card__head"><span class="card__title">Macierz uprawnień</span></div>
+        <table class="table">
+          <thead><tr><th>Zakres</th><th style="width:120px">Administrator</th><th style="width:120px">Operator</th><th style="width:120px">Podgląd</th></tr></thead>
+          <tbody>
+            <tr><td>Zlecenia: podgląd</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td></tr>
+            <tr><td>Zlecenia: edycja</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td></tr>
+            <tr><td>Zlecenia: usuwanie</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td><td><input class="check" type="checkbox"></td></tr>
+            <tr><td>Katalog i cenniki</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td></tr>
+            <tr><td>Eksport danych</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td></tr>
+            <tr><td>Użytkownicy</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td><td><input class="check" type="checkbox"></td></tr>
+            <tr><td>Ustawienia i klucze API</td><td><input class="check" type="checkbox" checked></td><td><input class="check" type="checkbox"></td><td><input class="check" type="checkbox"></td></tr>
+          </tbody>
+        </table>
+        <div class="card__foot row"><span class="small muted">Zmiany działają od następnego logowania.</span><button class="btn btn--sm btn--primary" style="margin-left:auto" data-toast="Uprawnienia zapisane">Zapisz</button></div>
+      </div>
+    </main>
+
+    <!-- ===============================================================
+         WIDOK: KOMPONENTY (paleta do kopiowania)
+         =============================================================== -->
+    <main class="content" data-view="components" hidden>
+      <div class="page-head"><div class="page-head__text">
+        <span class="k">System projektowy</span>
+        <h1 class="h1">Komponenty</h1>
+        <p class="sub">Wszystkie elementy szablonu w jednym miejscu, do kopiowania przy budowie widoków.</p>
+      </div></div>
+
+      <div class="stack">
+        <div class="card"><div class="card__head"><span class="card__title">Przyciski</span></div>
+          <div class="card__body row row--wrap">
+            <button class="btn btn--primary">Podstawowy</button>
+            <button class="btn">Drugi</button>
+            <button class="btn btn--ghost">Obrys</button>
+            <button class="btn btn--quiet">Cichy</button>
+            <button class="btn btn--danger">Niszczący</button>
+            <button class="btn btn--primary" disabled>Wyłączony</button>
+            <span class="btn-group"><button class="btn" aria-pressed="true">Lista</button><button class="btn" aria-pressed="false">Kafelki</button></span>
+          </div>
+        </div>
+
+        <div class="card"><div class="card__head"><span class="card__title">Pola formularza</span></div>
+          <div class="card__body grid grid--3">
+            <div class="field"><label class="field__label">Tekst</label><input class="input" placeholder="Wpisz wartość"></div>
+            <div class="field"><label class="field__label">Lista</label><select class="select"><option>Opcja A</option><option>Opcja B</option></select></div>
+            <div class="field"><label class="field__label">Data</label><input class="input" type="date"></div>
+            <div class="field"><label class="field__label">Z ikoną</label><div class="input-group"><svg class="i"><use href="#i-search"/></svg><input class="input" placeholder="Szukaj"></div></div>
+            <div class="field"><label class="field__label">Błąd</label><input class="input input--err" value="wartość"><span class="field__err">Pole wymagane.</span></div>
+            <div class="field"><label class="field__label">Przełącznik</label><label class="switch"><input type="checkbox" checked><span class="switch__track"></span></label></div>
+          </div>
+        </div>
+
+        <div class="card"><div class="card__head"><span class="card__title">Odznaki i etykiety</span></div>
+          <div class="card__body row row--wrap">
+            <span class="badge badge--ok">Aktywne</span><span class="badge badge--warn">Oczekuje</span>
+            <span class="badge badge--err">Błąd</span><span class="badge badge--info">W toku</span>
+            <span class="badge badge--brand">Nowość</span><span class="badge badge--plain">Szkic</span>
+            <span class="tag">etykieta</span><span class="tag">wersja 2.1</span>
+          </div>
+        </div>
+
+        <div class="card"><div class="card__head"><span class="card__title">Komunikaty</span></div>
+          <div class="card__body stack">
+            <div class="banner"><svg class="i"><use href="#i-help"/></svg><div>Informacja neutralna.</div></div>
+            <div class="banner banner--warn"><svg class="i"><use href="#i-alert"/></svg><div>Ostrzeżenie, które wymaga uwagi.</div></div>
+            <div class="banner banner--err"><svg class="i"><use href="#i-x"/></svg><div>Błąd: nie udało się zapisać zmian.</div></div>
+            <div class="row"><button class="btn btn--ghost" data-toast="Zapisano zmiany">Pokaż toast</button>
+              <button class="btn btn--ghost" data-modal="modalConfirm">Pokaż potwierdzenie</button>
+              <button class="btn btn--ghost" data-drawer="drawerFilters">Pokaż szufladę</button>
+              <button class="btn btn--ghost" data-modal="cmdkOverlay">Pokaż paletę poleceń</button></div>
+          </div>
+        </div>
+
+        <div class="card"><div class="card__head"><span class="card__title">Stany szczególne</span></div>
+          <div class="card__body grid grid--3">
+            <div class="empty"><span class="empty__icon"><img src="assets/brand/forma-punkt.svg" alt="" style="width:26px"></span><h3 class="h3">Pusto</h3><p class="sub small">Nie ma tu jeszcze nic.</p><button class="btn btn--sm btn--primary">Dodaj pierwszy</button></div>
+            <div class="empty"><span class="empty__icon" style="background:var(--err-bg)"><svg class="i i--lg" style="color:var(--err)"><use href="#i-shield"/></svg></span><h3 class="h3">Brak dostępu</h3><p class="sub small">Poproś administratora o uprawnienie.</p></div>
+            <div class="empty"><span class="empty__icon" style="background:var(--warn-bg)"><svg class="i i--lg" style="color:var(--warn)"><use href="#i-alert"/></svg></span><h3 class="h3">Błąd 500</h3><p class="sub small">Spróbuj ponownie za chwilę.</p><button class="btn btn--sm btn--ghost">Odśwież</button></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ===================================================================
+     OKNA: modal, potwierdzenie, paleta poleceń, szuflady, toasty
+     =================================================================== -->
+<div class="overlay" id="modalNew" data-overlay>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalNewTitle">
+    <div class="modal__head"><strong id="modalNewTitle">Nowe zlecenie</strong>
+      <button class="icon-btn" style="margin-left:auto" data-close><svg class="i"><use href="#i-x"/></svg></button></div>
+    <div class="modal__body stack">
+      <div class="field"><label class="field__label">Klient</label><select class="select"><option>Acme Sp. z o.o.</option><option>Nexo Industries</option></select></div>
+      <div class="grid grid--2">
+        <div class="field"><label class="field__label">Termin</label><input class="input" type="date"></div>
+        <div class="field"><label class="field__label">Właściciel</label><select class="select"><option>Anna Nowak</option><option>Piotr Zieliński</option></select></div>
+      </div>
+      <div class="field"><label class="field__label">Opis</label><textarea class="textarea" placeholder="Zakres prac"></textarea></div>
+    </div>
+    <div class="modal__foot"><button class="btn btn--ghost" data-close>Anuluj</button>
+      <button class="btn btn--primary" data-close data-toast="Zlecenie utworzone">Utwórz</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="modalConfirm" data-overlay>
+  <div class="modal" style="width:min(440px,100%)" role="alertdialog" aria-modal="true">
+    <div class="modal__body row" style="align-items:flex-start;gap:16px">
+      <span class="empty__icon" style="background:var(--err-bg);width:44px;height:44px"><svg class="i" style="color:var(--err)"><use href="#i-alert"/></svg></span>
+      <div><strong>Usunąć zaznaczone pozycje?</strong><p class="sub small mt-2">Tej operacji nie można cofnąć. Powiązane dokumenty zostaną odłączone.</p></div>
+    </div>
+    <div class="modal__foot"><button class="btn btn--ghost" data-close>Anuluj</button>
+      <button class="btn btn--danger" data-close data-toast="Pozycje usunięte">Usuń</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="cmdkOverlay" data-overlay style="align-items:flex-start">
+  <div class="cmdk" role="dialog" aria-modal="true">
+    <input class="cmdk__input" placeholder="Wpisz polecenie albo szukaj…" id="cmdkInput">
+    <div class="cmdk__list">
+      <div class="menu__label">Przejdź do</div>
+      <button class="menu__item" data-goto="dashboard" data-close><svg class="i"><use href="#i-home"/></svg> Pulpit</button>
+      <button class="menu__item" data-goto="table" data-close><svg class="i"><use href="#i-table"/></svg> Zlecenia</button>
+      <button class="menu__item" data-goto="users" data-close><svg class="i"><use href="#i-users"/></svg> Użytkownicy</button>
+      <div class="menu__label">Akcje</div>
+      <button class="menu__item" data-close data-modal="modalNew"><svg class="i"><use href="#i-plus"/></svg> Nowe zlecenie</button>
+      <button class="menu__item" data-close id="cmdkTheme"><svg class="i"><use href="#i-moon"/></svg> Przełącz motyw</button>
+    </div>
+  </div>
+</div>
+
+<aside class="drawer" id="drawerFilters" role="dialog" aria-label="Filtry">
+  <div class="drawer__head"><strong>Filtry zaawansowane</strong>
+    <button class="icon-btn" style="margin-left:auto" data-close><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="drawer__body stack">
+    <div class="field"><label class="field__label">Status</label>
+      <div class="stack" style="gap:6px">
+        <label class="row"><input class="check" type="checkbox" checked> Nowe</label>
+        <label class="row"><input class="check" type="checkbox" checked> W toku</label>
+        <label class="row"><input class="check" type="checkbox"> Wstrzymane</label>
+        <label class="row"><input class="check" type="checkbox"> Zamknięte</label>
+      </div></div>
+    <div class="field"><label class="field__label">Zakres dat</label>
+      <div class="grid grid--2"><input class="input" type="date"><input class="input" type="date"></div></div>
+    <div class="field"><label class="field__label">Wartość od</label><input class="input" type="number" placeholder="0,00"></div>
+    <div class="field"><label class="field__label">Zespół</label><select class="select"><option>Wszystkie</option><option>Operacje</option><option>Finanse</option></select></div>
+    <div class="row row--between"><span class="small">Tylko moje</span><label class="switch"><input type="checkbox"><span class="switch__track"></span></label></div>
+  </div>
+  <div class="drawer__foot"><button class="btn btn--quiet" data-close>Wyczyść</button><button class="btn btn--primary" data-close data-toast="Filtry zastosowane">Zastosuj</button></div>
+</aside>
+
+<aside class="drawer" id="drawerUser" role="dialog" aria-label="Zaproszenie">
+  <div class="drawer__head"><strong>Zaproś użytkownika</strong>
+    <button class="icon-btn" style="margin-left:auto" data-close><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="drawer__body stack">
+    <div class="field"><label class="field__label">E-mail</label><input class="input" type="email" placeholder="imie.nazwisko@firma.pl"></div>
+    <div class="field"><label class="field__label">Rola</label><select class="select"><option>Operator</option><option>Administrator</option><option>Podgląd</option></select></div>
+    <div class="field"><label class="field__label">Zespół</label><select class="select"><option>Operacje</option><option>Finanse</option></select></div>
+    <label class="choice"><input type="checkbox"><span><strong>Wyślij powitalną wiadomość</strong><br><span class="sub small">Zawiera link do ustawienia hasła, ważny 72 godziny.</span></span></label>
+  </div>
+  <div class="drawer__foot"><button class="btn btn--ghost" data-close>Anuluj</button><button class="btn btn--primary" data-close data-toast="Zaproszenie wysłane">Wyślij zaproszenie</button></div>
+</aside>
+
+<aside class="drawer" id="drawerHelp" role="dialog" aria-label="Pomoc">
+  <div class="drawer__head"><strong>Pomoc i skróty</strong>
+    <button class="icon-btn" style="margin-left:auto" data-close><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="drawer__body stack">
+    <dl class="kv">
+      <dt>⌘ K</dt><dd>Paleta poleceń</dd>
+      <dt>G potem P</dt><dd>Przejdź do pulpitu</dd>
+      <dt>N</dt><dd>Nowe zlecenie</dd>
+      <dt>/</dt><dd>Wyszukiwarka</dd>
+      <dt>Esc</dt><dd>Zamknij okno</dd>
+    </dl>
+    <hr class="hr">
+    <div class="list">
+      <a class="list__item" href="#"><svg class="i"><use href="#i-file"/></svg> Dokumentacja użytkownika</a>
+      <a class="list__item" href="#"><svg class="i"><use href="#i-link"/></svg> Status usług</a>
+      <a class="list__item" href="#"><svg class="i"><use href="#i-help"/></svg> Zgłoś problem</a>
+    </div>
+  </div>
+</aside>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="js/admin.js"></script>
+</body>
+</html>
